@@ -1,0 +1,31 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer base{
+    :root{
+        --bg_color: 17 17 17;
+        --text_color: 220 220 220;
+        --primary_color: 49 98 200;
+        --secondary_color: 0 39 97;
+        --accent_color: 255 101 165;
+    }
+
+    :root[class="dark"]{
+            --bg_color: 17 17 17;
+            --text_color: 255 255 255; 
+            --desc_color: 226 232 240; 
+            --primary_color: 49 98 200;
+            --secondary_color: 0 39 97;
+            --accent_color: 255 101 165;
+    }
+
+    :root[class="light"]{
+            --bg_color: 220 220 220;
+            --text_color: 17 17 17; 
+            --primary_color: 49 98 200;
+            --secondary_color: 250 252 255;  
+            --accent_color: 203 0 85;
+    }
+
+}
