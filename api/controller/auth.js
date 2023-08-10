@@ -1,9 +1,10 @@
 const mongoose = require('mongoose')
 const bcrypt = require('bcrypt')
+const jwt = require('jsonwebtoken')
 
 const User = require('../model/User')
 
-const registerRoute = async(req, res) => {
+module.exports.registerRoute = async(req, res) => {
     const {username, password, cfPassword} = req.body;
 
     try{
@@ -32,7 +33,7 @@ const registerRoute = async(req, res) => {
             password: hashedPassword 
         })
 
-        const savedUser = await newUser.save();
+        await newUser.save();
         return res.status(200).json({msg: "Register successful!!!"});
         
     }catch(error){
@@ -40,7 +41,7 @@ const registerRoute = async(req, res) => {
     }
 }
 
-const LoginRoute = async(req, res) => {
+module.exports.loginRoute = async(req, res) => {
     const {username, password} = req.body;
     try{
         if(!username || !password){
@@ -57,14 +58,22 @@ const LoginRoute = async(req, res) => {
         const comparePassword = await bcrypt.compare(password, existedUser.password);
 
         if(!comparePassword){
-            return res.status(400).json({msg: "Password is not correct."});
+            return res.status(401).json({msg: "Password is not correct."});
         }
+            
+        const payload = {
+            id: existedUser._id
+        }
+        const token = jwt.sign(payload, process.env.JWT_SECRET)
+            
+        res.cookie("acc_token", token, {
+            httpOnly: true,
+        }).send()
+        
 
-        return res.status(200).json({msg: "Login scuccessful!"});
-    }catch(err){
-        console.log(msg)
+    }catch(error){
+        console.log(error)
     }
 
 }
 
-module.exports = {registerRoute, LoginRoute};

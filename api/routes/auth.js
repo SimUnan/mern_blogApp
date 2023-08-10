@@ -1,9 +1,9 @@
 const express = require('express');
-const { LoginRoute, registerRoute } = require('../controller/auth');
+const jwt = require('jsonwebtoken');
 const router = express.Router();
+const { loginRoute, registerRoute } = require('../controller/auth');
 
 router.post('/register', registerRoute);
-router.post('/login', LoginRoute);
-
+router.post('/login', loginRoute);
 
 module.exports = router;
