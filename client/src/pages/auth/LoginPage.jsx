@@ -6,32 +6,27 @@ import {toast, Toaster} from 'react-hot-toast'
 import Layout from "../../components/Layout";
 import Input from "../../components/Input";
 
+// axios.defaults.headers.post['Content-Type'] ='application/json;charset=utf-8';
+// axios.defaults.headers.post['Access-Control-Allow-Origin'] = '*';
+
 const LoginPage = () => {
 
     const navigate = useNavigate();
 
-    const [username, setUsername] = useState(null);
-    const [password, setPassword] = useState(null);
+    const [username, setUsername] = useState("");
+    const [password, setPassword] = useState("");
 
     const handleSubmit = async(e) => {
         e.preventDefault();
+        const data = {username, password};
         try{
-            const data = {username, password};
-            await axios.post('http://localhost:9000/api/auth/login', data)
-            .then(res => {
-                if(res.status === 200){
-                    navigate('/')
-                }
-            })
-            .catch(err => 
-                toast.error(err.response.data.msg)
-            )
-            
-            //navigate    
+            await axios.post('http://localhost:9000/api/auth/login',data);
+            navigate('/')
         }catch(err){
-            console.log(err);
+            toast.error(err.response.data.msg);
         }
     }
+
 
     return (
         <Layout>

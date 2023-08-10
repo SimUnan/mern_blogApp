@@ -21,10 +21,13 @@ const RegisterPage = () => {
             try{
                 const data = {username, password, cfPassword};
                 await axios.post('http://localhost:9000/api/auth/register', data)
-                .then(res => toast.success(res.data.msg))
+                .then(res => {
+                    if(res.status === 200){
+                        navigate('/login')
+                    }
+                })
                 .catch(err => toast.error(err.response.data.msg))
                 //navigate to login page
-                navigate('/login')
             }catch(err){
                 console.log(err)
             }
